@@ -1,0 +1,37 @@
+# $Id$
+
+include $(SRCDIR)/config/easyos.cfg
+
+_INCLUDES := $(foreach f,$(shell ls *.[hi]), $(f))      \
+            $(foreach f,$(shell ls easyos/*.[hi]), $(f))  \
+            $(foreach f,$(shell ls asm/*.[hi]), $(f))   \
+            $(foreach f,$(shell ls exec/*.[hi]), $(f))
+
+INCFILES := $(foreach f,$(_INCLUDES), $(easyos_INCLUDES)/$(f) $(GENINCDIR)/$(f))
+
+DIRS :=	$(easyos_INCLUDES) $(GENINCDIR) \
+	$(foreach d, easyos asm exec libcore, $(easyos_INCLUDES)/$(d) $(GENINCDIR)/$(d))
+
+MACHINE_H := $(GENINCDIR)/easyos/machine.h
+
+#MM
+includes-generic-arm : $(INCFILES) $(GENINCDIR)/sigcore.h
+	@$(NOP)
+
+#MM
+setup-includes :
+	@$(FOR) dir in $(DIRS) ; do \
+	    $(IF) $(TEST) ! -d "$$dir" ; then $(MKDIR) "$$dir" ; else true ; fi ; \
+	done
+
+#MM
+clean ::
+	$(RM) $(MACHINE_H) $(DISTMACHINE_H) $(TESTS)
+
+$(easyos_INCLUDES)/% : %
+	$(CP) $< $@
+
+$(GENINCDIR)/% : %
+	$(CP) $< $@
+
+%common
