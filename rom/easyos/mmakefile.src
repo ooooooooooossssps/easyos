@@ -1,0 +1,27 @@
+#
+#   Generate easyos.library
+#
+include $(SRCDIR)/config/easyos.cfg
+
+#MM- kernel-easyos : linklibs kernel-easyos-create-abi-file
+#MM- kernel-easyos-kobj : linklibs kernel-easyos-create-abi-file
+
+#MM- kernel-easyos-includes : \
+#MM      kernel-exec-includes \
+#MM      kernel-utility-includes \
+#MM      includes-copy
+#MM- core-linklibs: linklibs-easyos
+
+USER_CPPFLAGS := \
+               -DNO_INLINE_STDARG \
+               -DUSE_EXEC_DEBUG \
+	       -Deasyos_ARCHITECTURE="\"$(easyos_TARGET_PLATFORM)\""
+
+%build_module mmake=kernel-easyos \
+  modname=easyos modtype=library \
+  files="easyos_init easyosinquirea"
+
+#MM
+kernel-easyos-create-abi-file :
+	@$(MKDIR) $(easyos_PREFS)/Env-Archive
+	@$(SED) -n 's/#define easyos_ABI_VERSION_MAJOR// p' < $(SRCDIR)/$(CURDIR)/easyosinquirea.c | $(SED) -n 's/^ *//;s/[ */*].*//p' > $(easyos_PREFS)/Env-Archive/ABI
