@@ -1,0 +1,7 @@
+include $(SRCDIR)/config/easyos.cfg
+
+#MM- boot-distfiles : boot-distfiles-$(easyos_TARGET_ARCH)-$(easyos_TARGET_CPU)
+#MM- boot-distfiles-quick : boot-distfiles-quick-$(easyos_TARGET_ARCH)-$(easyos_TARGET_CPU)
+
+#MM- distfiles : distfiles-$(easyos_TARGET_ARCH)-$(easyos_TARGET_CPU)
+#MM- distfiles-quick : distfiles-quick-$(easyos_TARGET_ARCH)-$(easyos_TARGET_CPU)
