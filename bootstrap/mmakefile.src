@@ -1,0 +1,19 @@
+include $(SRCDIR)/config/easyos.cfg
+
+FILES := elfloader
+
+USER_INCLUDES := -I $(SRCDIR)/$(CURDIR)/include -I $(GENINCDIR)
+
+%build_linklib mmake=linklibs-bootstrap libname=bootstrap files="$(FILES)" \
+	       compiler=kernel libdir=$(GENDIR)/lib
+
+# linklibs-bootstrap32 target is used by x86-64 bootstrap which runs in 32-bit mode
+
+ifeq ($(easyos_TARGET_CPU),x86_64)
+    ISA_FLAGS := $(ISA_X86_FLAGS)
+endif
+USER_CPPFLAGS := -DELF_64BIT
+%build_linklib mmake=linklibs-bootstrap32 libname=bootstrap files="$(FILES)" \
+	       compiler=kernel objdir=$(GENDIR)/$(CURDIR)/32bit libdir=$(GENDIR)/lib32
+
+%common
