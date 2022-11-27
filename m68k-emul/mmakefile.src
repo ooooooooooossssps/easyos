@@ -63,4 +63,9 @@ $(OSGENDIR)/%.o: %.s machine.i
 #$(OSGENDIR)/%.d: %.c $(MACHINE_H)
 #	%mkdepend_q
 
+
+
+
 %common
+
+
