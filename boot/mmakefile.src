@@ -1,5 +1,5 @@
 include $(SRCDIR)/config/easyos.cfg
-
+#
 #MM- bootdisk : \
 #MM                              boot \
 #MM                              bootdisk-$(easyos_TARGET_ARCH)-$(easyos_TARGET_CPU)
